@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const env=  process.env.NODE_ENV
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const resolve = (dir) => path.join(__dirname, "../", dir);
 module.exports = {
@@ -15,23 +16,20 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader,"css-loader", "postcss-loader"],
+        use: [env=='production'?MiniCssExtractPlugin.loader:'style-loader',"css-loader", "postcss-loader"],
       },
       {
         test: /\.less$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
+        use: [env=='production'?MiniCssExtractPlugin.loader:'style-loader', "css-loader", "postcss-loader", "less-loader"],
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"],
+        use: [env=='production'?MiniCssExtractPlugin.loader:'style-loader',"css-loader", "postcss-loader", "sass-loader"],
       }, 
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: "[name].[hash].css",
-      chunkFilename: "[id].css",
-  }),
+   
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html", // 指定 HTML 模板文件
