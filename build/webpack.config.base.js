@@ -11,6 +11,14 @@ module.exports = {
     path: resolve("dist"),
     filename: "[name].js",
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader','css-loader'],
+      },
+    ],
+  },
   plugins:[
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({

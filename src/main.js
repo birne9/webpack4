@@ -1,1 +1,3 @@
-console.log('什么xxsss')
+
+import './style.css'
+console.log('什么')
