@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const resolve = (dir) => path.join(__dirname, "../", dir);
 module.exports = {
   entry: {
@@ -15,19 +15,23 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: [MiniCssExtractPlugin.loader,"css-loader", "postcss-loader"],
       },
       {
         test: /\.less$/,
-        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
       },
       {
         test: /\.scss$/,
-        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"],
       }, 
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].[hash].css",
+      chunkFilename: "[id].css",
+  }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html", // 指定 HTML 模板文件
