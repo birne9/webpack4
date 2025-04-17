@@ -1,3 +1,3 @@
 
-import './style.css'
+import './js/script'
 console.log('什么')
