@@ -10,6 +10,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin"); // 用于生成html文
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 用于将css提取到单独的文件中
 
+const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin"); // 用于压缩css文件
+
 module.exports = {
   // 入口起点
   entry: "./src/main.js",
@@ -37,6 +39,7 @@ module.exports = {
           // "style-loader",
           // 这个loader取代style-loader，提取js中的css成单独文件  
           MiniCssExtractPlugin.loader,
+          
           // 将css文件变成commonjs模块加载到js中，里面内容是样式字符串,将css文件整合到js文件中
           "css-loader",
           /*
@@ -67,7 +70,8 @@ module.exports = {
         //    use 数组中loader执行顺序：从右到左、从下到上、 依次执行
         use: [
           // 创建style标签，将js中的样式资源插入行，添加到head 中生效
-          "style-loader",
+          // "style-loader",
+          MiniCssExtractPlugin.loader,
           // 将css文件变成commonjs模块加载到js中，里面内容是样式字符串
           "css-loader",
           //   将less文件编译成css文件
@@ -174,7 +178,9 @@ module.exports = {
       {
         filename: "assets/css/[name].[hash:8].css",
       }
-    )
+    ),
+    new OptimizeCssAssetsWebpackPlugin()
+
   ],
   // 模式
   mode: "development",
