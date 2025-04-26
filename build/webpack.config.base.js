@@ -1,4 +1,12 @@
+
+/*
+ loader:1、下载 2、使用（配置loader）
+ plugins:1、下载、2、实例化插件 3、传入plugins选项
+
+*/
 const { resolve } = require("path");
+
+const HtmlWebpackPlugin = require("html-webpack-plugin"); // 用于生成html文件
 
 module.exports = {
   // 入口起点
@@ -46,7 +54,14 @@ module.exports = {
     ],
   },
   // 插件的配置
-  plugins: [],
+  plugins: [
+    // 功能：默认会创建一个空的HTML，自动引入打包输出的所有资源（JS/CSS）
+    // 需求：需要有结构的HTML文件
+    new HtmlWebpackPlugin({
+        // 复制./src/index.html 文件，并自动引入打包输出的所有资源（JS/CSS）
+      template: "./src/index.html",
+    })
+  ],
   // 模式
   mode: "development",
 };
