@@ -52,26 +52,26 @@ module.exports = {
           "less-loader",
         ],
       },
-    //   处理图片和字体文件
-      // {
-      //   test: /\.(png|jpe?g|gif|webp|svg)$/i,
-      //   type: 'asset/resource', // 或 'asset' 根据需求选择
-      //   generator: {
-      //     filename: 'images/[hash][ext]' // 指定输出路径和文件名格式
-      //   },
-      //   parser: {
-      //     dataUrlCondition: {
-      //       maxSize: 10* 1024, // 小于等于10kb的图片会被转为base64格式的字符串，否则会生成单独的文件
-      //     },
-      //   },
-      // },
+    //   处理图片
+      {
+        test: /\.(png|jpe?g|gif|webp|svg)$/i,
+        type: 'asset/resource', // 或 'asset' 根据需求选择
+        generator: {
+          filename: 'images/[hash][ext]' // 指定输出路径和文件名格式
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10* 1024, // 小于等于10kb的图片会被转为base64格式的字符串，否则会生成单独的文件
+          },
+        },
+      },
        { test: /\.(png|jpe?g|gif|svg|webp)$/i,
         use: [
           {
             loader: 'url-loader',
             options: {
               limit: 8192, // 8KB 以下转 Base64
-              name: 'images/[name].[hash:8].[ext]',
+              name: 'assets/images/[name].[hash:8].[ext]',
               esModule: false // 关闭 ES 模块语法
             }
           }
