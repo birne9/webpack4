@@ -1,3 +1,2 @@
-
-import './js/script'
-console.log('什么')
+import './css/index.css'
+import './less/index.less'

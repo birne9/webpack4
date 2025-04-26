@@ -1,45 +1,52 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const env=  process.env.NODE_ENV
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const resolve = (dir) => path.join(__dirname, "../", dir);
+const { resolve } = require("path");
+
 module.exports = {
-  entry: {
-    index: "./src/main.js",
-  },
+  // 入口起点
+  entry: "./src/main.js",
+
+  // 输出
   output: {
-    path: resolve("dist"),
-    filename: "[name].js",
+    // 输入文件名
+    filename: "bundle.js",
+    // 输出路径
+    // __dirname node.js的变量，代表当前文件的目录绝对路径
+    path: resolve(__dirname, "../dist"),
   },
+  // loader的配置
   module: {
     rules: [
+      // 详细loader的配置
       {
+        // 匹配哪些文件
         test: /\.css$/,
-        use: [env=='production'?MiniCssExtractPlugin.loader:'style-loader',"css-loader", "postcss-loader"],
+        // 使用哪些loader进行处理
+        //    use 数组中loader执行顺序：从右到左、从下到上、 依次执行
+        use: [
+          // 创建style标签，将js中的样式资源插入行，添加到head 中生效
+          "style-loader",
+          // 将css文件变成commonjs模块加载到js中，里面内容是样式字符串
+          "css-loader",
+        ],
       },
+
       {
+        // 匹配哪些文件
         test: /\.less$/,
-        use: [env=='production'?MiniCssExtractPlugin.loader:'style-loader', "css-loader", "postcss-loader", "less-loader"],
+        // 使用哪些loader进行处理
+        //    use 数组中loader执行顺序：从右到左、从下到上、 依次执行
+        use: [
+          // 创建style标签，将js中的样式资源插入行，添加到head 中生效
+          "style-loader",
+          // 将css文件变成commonjs模块加载到js中，里面内容是样式字符串
+          "css-loader",
+          //   将less文件编译成css文件
+          "less-loader",
+        ],
       },
-      {
-        test: /\.scss$/,
-        use: [env=='production'?MiniCssExtractPlugin.loader:'style-loader',"css-loader", "postcss-loader", "sass-loader"],
-      }, 
     ],
   },
-  plugins: [
-   
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: "./src/index.html", // 指定 HTML 模板文件
-      filename: "index.html", // 生成的 HTML 文件名
-      inject: "body", // 将 JS 注入到 body 底部
-      minify: {
-        // 压缩 HTML（可选）
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-    }),
-  ],
+  // 插件的配置
+  plugins: [],
+  // 模式
+  mode: "development",
 };
