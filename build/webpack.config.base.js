@@ -39,6 +39,24 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           // 将css文件变成commonjs模块加载到js中，里面内容是样式字符串,将css文件整合到js文件中
           "css-loader",
+          /*
+            css 兼容性处理：postcss-loader 需要下载 postcss-preset-env
+            帮postcss找到package.json中browserslist里面的配置，通过postcss去兼容样式
+          */
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    require('postcss-preset-env')({ 
+                      // 启用 Stage 3 特性 + 自动补全
+                      stage: 3,
+                      features: { 'nesting-rules': true }
+                    })
+                  ]
+                }
+              }
+            }
         ],
       },
 
@@ -57,18 +75,18 @@ module.exports = {
         ],
       },
     //   处理图片
-      {
-        test: /\.(png|jpe?g|gif|webp|svg)$/i,
-        type: 'asset/resource', // 或 'asset' 根据需求选择
-        generator: {
-          filename: 'images/[hash][ext]' // 指定输出路径和文件名格式
-        },
-        parser: {
-          dataUrlCondition: {
-            maxSize: 10* 1024, // 小于等于10kb的图片会被转为base64格式的字符串，否则会生成单独的文件
-          },
-        },
-      },
+      // {
+      //   test: /\.(png|jpe?g|gif|webp|svg)$/i,
+      //   type: 'asset/resource', // 或 'asset' 根据需求选择
+      //   generator: {
+      //     filename: 'images/[hash][ext]' // 指定输出路径和文件名格式
+      //   },
+      //   parser: {
+      //     dataUrlCondition: {
+      //       maxSize: 10* 1024, // 小于等于10kb的图片会被转为base64格式的字符串，否则会生成单独的文件
+      //     },
+      //   },
+      // },
        { test: /\.(png|jpe?g|gif|svg|webp)$/i,
         use: [
           {
