@@ -19,6 +19,7 @@ module.exports = {
     // 输出路径
     // __dirname node.js的变量，代表当前文件的目录绝对路径
     path: resolve(__dirname, "../dist"),
+    clean:true
   },
   // loader的配置
   module: {
@@ -51,6 +52,26 @@ module.exports = {
           "less-loader",
         ],
       },
+    //   处理图片和字体文件
+      {
+        test: /\.(png|jpe?g|gif|webp|svg)$/i,
+        type: 'asset/resource', // 或 'asset' 根据需求选择
+        generator: {
+          filename: 'images/[hash][ext]' // 指定输出路径和文件名格式
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10* 1024, // 小于等于10kb的图片会被转为base64格式的字符串，否则会生成单独的文件
+          },
+        },
+      },
+      {
+        test:/\.html$/,
+        exclude: /node_modules/, // 排除node_modules文件夹
+        // 使用html-loader处理html文件中的图片（img src）
+        loader:'html-loader'
+      }
+      
     ],
   },
   // 插件的配置
