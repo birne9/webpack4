@@ -1,0 +1,29 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "webpack": "^5.99.7",
+    "webpack-cli": "^6.0.1"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "less": "^4.3.0",
+    "less-loader": "^12.2.0",
+    "style-loader": "^4.0.0"
+  },
+  "scripts": {
+    "build": "webpack --config build/webpack.config.base.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/birne9/webpack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/birne9/webpack/issues"
+  },
+  "homepage": "https://github.com/birne9/webpack#readme"
+}
