@@ -173,6 +173,18 @@ module.exports = {
     new HtmlWebpackPlugin({
         // 复制./src/index.html 文件，并自动引入打包输出的所有资源（JS/CSS）
       template: "./src/index.html",
+      minify: {
+        collapseWhitespace: true, // 折叠空白区域的转换函数
+        removeComments: true, // 移除 HTML 注释
+        removeRedundantAttributes: true,// 移除多余的属性
+        removeScriptTypeAttributes: true,// 移除 script 标签 type 属性
+        removeStyleLinkTypeAttributes: true,// 移除 link 标签 type 属性
+        useShortDoctype: true,// 使用 HTML5 的 doctype
+        keepClosingSlash: true,// 在自闭合标签中保留斜杠
+        minifyJS: true,// 压缩页面 JS 代码
+        minifyCSS: true,// 压缩页面 CSS 代码
+        minifyURLs: true,// 压缩页面 URL
+      },
     }),
     new MiniCssExtractPlugin(
       {
@@ -182,6 +194,5 @@ module.exports = {
     new OptimizeCssAssetsWebpackPlugin()
 
   ],
-  // 模式
-  mode: "development",
+
 };
