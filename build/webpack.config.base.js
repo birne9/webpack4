@@ -130,7 +130,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[hash:8].[ext]',
-              outputPath: 'assets/', // 统一输出目录
+              outputPath: 'assets/font', // 统一输出目录
               esModule: false // 关闭 ES 模块语法
             }
           }
