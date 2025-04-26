@@ -1,0 +1,61 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1745680895440') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-weibiaoti--:before {
+  content: "\e635";
+}
+
+.icon-weibiaoti--1:before {
+  content: "\e636";
+}
+
+.icon-weibiaoti--2:before {
+  content: "\e637";
+}
+
+.icon-weibiaoti--3:before {
+  content: "\e638";
+}
+
+.icon-weibiaoti--4:before {
+  content: "\e639";
+}
+
+.icon-weibiaoti--5:before {
+  content: "\e63a";
+}
+
+.icon-weibiaoti--6:before {
+  content: "\e63b";
+}
+
+.icon-weibiaoti--7:before {
+  content: "\e63c";
+}
+
+.icon-weibiaoti--8:before {
+  content: "\e63d";
+}
+
+.icon-weibiaoti--9:before {
+  content: "\e63e";
+}
+
+.icon-weibiaoti--10:before {
+  content: "\e63f";
+}
+
+.icon-weibiaoti--11:before {
+  content: "\e640";
+}
+

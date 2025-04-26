@@ -83,6 +83,59 @@ module.exports = {
         exclude: /node_modules/, // 排除node_modules文件夹
         // 使用html-loader处理html文件中的图片（img src）
         loader:'html-loader'
+      },
+      //   处理其他资源
+      // {
+      //   test: /\.(woff2?|eot|ttf|otf|mp4|webm|ogg|mp3|wav|flac|aac|pdf|docx?|xlsx?|pptx?|zip|rar|7z)$/i,
+      //   type: 'asset/resource',
+      //   generator: {
+      //     filename: 'assets/[name].[hash:8][ext][query]' // 输出路径和文件名格式
+      //   }
+      // }
+
+      // {
+      //   test: /\.(woff2?|eot|ttf|otf)$/i,
+      //   type: 'asset/resource',
+      //   generator: {
+      //     filename: 'fonts/[name].[hash:8][ext][query]' // 单独存放字体
+      //   }
+      // },
+      // {
+      //   test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)$/i,
+      //   type: 'asset/resource',
+      //   generator: {
+      //     filename: 'media/[name].[hash:8][ext][query]' // 媒体文件单独目录
+      //   }
+      // },
+      // {
+      //   test: /\.(pdf|docx?|xlsx?|pptx?)$/i,
+      //   type: 'asset/resource',
+      //   generator: {
+      //     filename: 'docs/[name].[hash:8][ext][query]' // 文档单独目录
+      //   }
+      // },
+      // {
+      //   test: /\.(zip|rar|7z)$/i,
+      //   type: 'asset/resource',
+      //   generator: {
+      //     filename: 'archives/[name].[hash:8][ext][query]' // 压缩文件归档
+      //   }
+      // },
+
+      // 处理其他资源使用第三方 Loader（兼容旧配置）若需更复杂功能（如自定义文件处理）
+      {
+        test: /\.(woff2?|eot|ttf|otf|mp4|pdf)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[hash:8].[ext]',
+              outputPath: 'assets/', // 统一输出目录
+              esModule: false // 关闭 ES 模块语法
+            }
+          }
+        ],
+        type: 'javascript/auto' // 禁用 Webpack 5 默认处理
       }
       
     ],
