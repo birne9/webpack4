@@ -27,8 +27,7 @@
     "url-loader": "^4.1.1"
   },
   "scripts": {
-    "build:dev": "webpack --config build/webpack.config.dev.js",
-    "build:prod": "webpack --config build/webpack.config.prod.js"
+    "build": "webpack --config build/webpack.config.base.js"
   },
   "repository": {
     "type": "git",
