@@ -11,3 +11,4 @@ const test = (x,y) => {
 }
 
 console.log(test(1,2))
+console.log('你是birne')
