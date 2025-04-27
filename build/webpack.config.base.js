@@ -30,6 +30,37 @@ module.exports = {
     rules: [
       // 详细loader的配置
       {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          // js 兼容性处理：babel-loader @babel/core @babel/preset-env
+          // 1、基本js兼容性处理-->@babel/preset-env
+          // 2、全部js兼容性处理-->@babel/polyfill 直接引入
+          // 3、部分js兼容性处理-->@babel/plugin-transform-runtime（配置在babel.config.js中）
+          loader: 'babel-loader',
+        
+          options: {
+            presets: [
+              ['@babel/preset-env',{
+                // 指定兼容性做到哪个版本浏览器
+                targets: {
+                  "chrome": "88",// 代表的是浏览器的版本
+                  "ie": "8",// 代表的是浏览器的版本
+                },
+                // 使用corejs的版本
+                corejs: 3,
+                // 使用useBuiltIns按需加载
+                useBuiltIns: "usage",
+                corejs:{
+                  version: 3, //指定corejs的版本
+                  proposals: true,//兼容性语法提案
+                }
+              }]
+            ]
+          }
+        }
+      },
+      {
         // 匹配哪些文件
         test: /\.css$/,
         // 使用哪些loader进行处理
