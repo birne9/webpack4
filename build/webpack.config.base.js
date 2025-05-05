@@ -55,11 +55,42 @@ module.exports = {
       */
       {
         test: /\.js$/,
+        enforce: 'pre', // 关键！确保 ESLint 在 Babel 之前执行
         exclude: /node_modules/,
         loader: "eslint-loader",
         options: {
-          fix: true,
+          fix: true, // 自动修复可修复的错误
+          emitWarning: true, // 显示警告但不阻断构建
         },
+      },
+      // js兼容性处理
+      /*
+          js兼容性处理：babel-loader @babel/preset-env @babel/core
+          1、基本的js兼容性处理--> @babel/preset-env
+          问题：只能转换基本语法，如promise不能转换
+          2、全部js兼容性处理--> @babel/polyfill
+          问题：只要解决兼容性问题，但是将所有的js兼容性代码全部引入，体积太大
+          3、按需加载--> @babel/preset-env配合core-js
+          问题：业务代码需要做兼容性处理，第三方库不需要做兼容性处理
+      */
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        options: {
+          presets: [[
+            "@babel/preset-env",
+            {
+              useBuiltIns: "usage", // 按需加载
+              corejs: { version: 3 }, // 指定 core-js 的版本为 v3
+              targets: { // 指定兼容的浏览器版本
+                chrome: "58",// 指定兼容的浏览器版本
+                ie: "11",// 指定兼容的浏览器版本
+              },
+            }
+          ]],
+          cacheDirectory: true, // 开启babel缓存
+        }
       },
       {
         test: /\.css$/,
