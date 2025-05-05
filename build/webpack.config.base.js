@@ -1,12 +1,7 @@
 const { resolve } = require("path");
 
-// 提取css文件
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-//压缩css
 // 处理html文件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// 复用css代码
-
 const commonCssLoader = ["css-loader"];
 module.exports = {
   entry: "./src/main.js",
