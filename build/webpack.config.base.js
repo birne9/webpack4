@@ -1,8 +1,11 @@
 const { resolve } = require("path");
-
+// 清理旧哈希文件
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // 处理html文件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const commonCssLoader = ["style-loader","css-loader"];
+// 时间戳
+const timestamp = new Date().getTime();
 module.exports = {
   entry: "./src/main.js",
   output: {
@@ -29,7 +32,7 @@ module.exports = {
             loader: "url-loader",
             options: {
               limit: 8192, // 小于 8KB 的图片转为 Base64
-              name: "[name].[hash:8].[ext]", // 输出文件名格式
+              name: `[name].[hash:8].${timestamp}.[ext]`, // 输出文件名格式
               outputPath: "images", // 字体文件输出目录（如 dist/fonts）
             },
           },
@@ -47,7 +50,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].[hash:8].[ext]", // 输出文件名格式
+              name: `[name].[hash:8].${timestamp}.[ext]`, // 输出文件名格式
               outputPath: "fonts", // 字体文件输出目录（如 dist/fonts）
             },
           },
@@ -60,7 +63,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[hash:8].[ext]', // 输出文件名格式
+              name: `[name].[hash:8].${timestamp}.[ext]`, // 输出文件名格式
               outputPath: 'assets', // 资源输出目录（如 dist/assets）
           },}
         ],
@@ -68,6 +71,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       minify: {
