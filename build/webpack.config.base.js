@@ -3,7 +3,19 @@ const { resolve } = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // 处理html文件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const commonCssLoader = ["style-loader","css-loader"];
+
+// 单独打包css文件插件
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const commonCssLoader = [
+  // 用 MiniCssExtractPlugin.loader 替代 style-loader
+  {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      publicPath: "../", //关键是这里，不然打包后的css文件找不到图片资源
+    },
+  },
+  "css-loader",
+];
 // 时间戳
 const timestamp = new Date().getTime();
 module.exports = {
@@ -31,9 +43,9 @@ module.exports = {
           {
             loader: "url-loader",
             options: {
-              limit: 8192, // 小于 8KB 的图片转为 Base64
-              name: `[name].[hash:8].${timestamp}.[ext]`, // 输出文件名格式
-              outputPath: "images", // 字体文件输出目录（如 dist/fonts）
+              limit: 8 * 1024, // 小于 8KB 的图片转为 Base64
+              name: `[name].[contenthash:8].${timestamp}.[ext]`, // 输出文件名格式
+              outputPath: "images", // 图片文件输出目录（如 dist/images）
             },
           },
         ],
@@ -50,28 +62,33 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: `[name].[hash:8].${timestamp}.[ext]`, // 输出文件名格式
+              name: `[name].[contenthash:8].${timestamp}.[ext]`, // 输出文件名格式
               outputPath: "fonts", // 字体文件输出目录（如 dist/fonts）
             },
           },
         ],
       },
-       // 其他资源（视频、PDF、音频等）
-       {
+      // 其他资源（视频、PDF、音频等）
+      {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac|pdf|docx?|xlsx?|zip|rar)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: `[name].[hash:8].${timestamp}.[ext]`, // 输出文件名格式
-              outputPath: 'assets', // 资源输出目录（如 dist/assets）
-          },}
+              name: `[name].[contenthash:8].${timestamp}.[ext]`, // 输出文件名格式
+              outputPath: "assets", // 资源输出目录（如 dist/assets）
+            },
+          },
         ],
       },
     ],
   },
   plugins: [
     new CleanWebpackPlugin(),
+    // 单独打包css文件插件
+    new MiniCssExtractPlugin({
+      filename: `css/[name].[contenthash:8].${timestamp}.css`, // 输出文件名格式
+    }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       minify: {

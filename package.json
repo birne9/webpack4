@@ -12,6 +12,7 @@
     "html-webpack-plugin": "^4.5.2",
     "less": "^3.13.1",
     "less-loader": "^7.3.0",
+    "mini-css-extract-plugin": "^1.6.2",
     "postcss": "^6.0.23",
     "postcss-loader": "^2.1.6",
     "postcss-preset-env": "^10.1.6",
