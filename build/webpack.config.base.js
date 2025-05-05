@@ -8,6 +8,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 // 单独打包css文件插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+// 压缩css
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 // 判断环境变量
 const isProduction = process.env.NODE_ENV === "production";
 // css公共代码抽取
@@ -120,6 +123,7 @@ module.exports = {
         removeAttributeQuotes: true, // 删除属性的引号
       },
     }),
+    new OptimizeCSSAssetsPlugin()
   ].filter(Boolean),
   mode: "production",
 };
