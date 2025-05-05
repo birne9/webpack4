@@ -10,9 +10,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // 压缩css
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // 判断环境变量
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === 'production';
 // css公共代码抽取
 const commonCssLoader = [
   // 用 MiniCssExtractPlugin.loader 替代 style-loader
@@ -29,13 +29,12 @@ const commonCssLoader = [
      css兼容性处理：postcss 找到package.json中browserslist字段，
      配置指定的兼容性浏览器，通过配置加载指定的css兼容性样式
   */
-
   {
     loader: "postcss-loader",
     options: {
       postcssOptions: {
         plugins: [
-          ["postcss-preset-env", { browsers: "last 2 versions" }], // 启用自动前缀
+          ["postcss-preset-env"], // 启用自动前缀
         ],
       },
     },
@@ -51,6 +50,17 @@ module.exports = {
   },
   module: {
     rules: [
+      /*
+        语法检查：js中不能有语法错误，否则会打包失败
+      */
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "eslint-loader",
+        options: {
+          fix: true,
+        },
+      },
       {
         test: /\.css$/,
         use: [...commonCssLoader],
@@ -123,7 +133,7 @@ module.exports = {
         removeAttributeQuotes: true, // 删除属性的引号
       },
     }),
-    new OptimizeCSSAssetsPlugin()
+    new OptimizeCSSAssetsPlugin(),
   ].filter(Boolean),
   mode: "production",
 };
