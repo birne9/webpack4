@@ -1,4 +1,6 @@
+// 引入path模块，用来拼接路径
 const { resolve } = require("path");
+
 // 清理旧哈希文件
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // 处理html文件
@@ -6,15 +8,35 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 // 单独打包css文件插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// 判断环境变量
+const isProduction = process.env.NODE_ENV === "production";
+// css公共代码抽取
 const commonCssLoader = [
   // 用 MiniCssExtractPlugin.loader 替代 style-loader
+  isProduction
+    ? {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: "../", //关键是这里，不然打包后的css文件找不到图片资源
+        },
+      }
+    : "style-loader",
+  "css-loader",
+  /*
+     css兼容性处理：postcss 找到package.json中browserslist字段，
+     配置指定的兼容性浏览器，通过配置加载指定的css兼容性样式
+  */
+
   {
-    loader: MiniCssExtractPlugin.loader,
+    loader: "postcss-loader",
     options: {
-      publicPath: "../", //关键是这里，不然打包后的css文件找不到图片资源
+      postcssOptions: {
+        plugins: [
+          ["postcss-preset-env", { browsers: "last 2 versions" }], // 启用自动前缀
+        ],
+      },
     },
   },
-  "css-loader",
 ];
 // 时间戳
 const timestamp = new Date().getTime();
@@ -86,9 +108,10 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     // 单独打包css文件插件
-    new MiniCssExtractPlugin({
-      filename: `css/[name].[contenthash:8].${timestamp}.css`, // 输出文件名格式
-    }),
+    isProduction &&
+      new MiniCssExtractPlugin({
+        filename: `css/[name].[contenthash:8].${timestamp}.css`, // 输出文件名格式
+      }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       minify: {
@@ -97,6 +120,6 @@ module.exports = {
         removeAttributeQuotes: true, // 删除属性的引号
       },
     }),
-  ],
+  ].filter(Boolean),
   mode: "production",
 };
