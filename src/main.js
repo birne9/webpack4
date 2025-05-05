@@ -1,6 +1,7 @@
 import './css/index.css'
 import './less/index.less'
 import './font/iconfont.css'
+import "./video/video1.mp4"
 
 // 箭头函数
 const test = (x,y) => {
