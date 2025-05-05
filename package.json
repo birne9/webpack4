@@ -29,7 +29,8 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --config build/webpack.config.dev.js",
-    "build": "webpack  --config build/webpack.config.prod.js"
+    "build:prod": "webpack  --config build/webpack.config.prod.js",
+    "build:dev": "webpack  --config build/webpack.config.dev.js"
   },
   "repository": {
     "type": "git",
