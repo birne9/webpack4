@@ -1,13 +1,13 @@
 // 引入path模块，用来拼接路径
-const { resolve } = require("path");
+const { resolve } = require('path');
 
 // 清理旧哈希文件
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // 处理html文件
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // 单独打包css文件插件
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // 压缩css
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -18,23 +18,23 @@ const commonCssLoader = [
   // 用 MiniCssExtractPlugin.loader 替代 style-loader
   isProduction
     ? {
-        loader: MiniCssExtractPlugin.loader,
-        options: {
-          publicPath: "../", //关键是这里，不然打包后的css文件找不到图片资源
-        },
-      }
-    : "style-loader",
-  "css-loader",
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: '../', // 关键是这里，不然打包后的css文件找不到图片资源
+      },
+    }
+    : 'style-loader',
+  'css-loader',
   /*
      css兼容性处理：postcss 找到package.json中browserslist字段，
      配置指定的兼容性浏览器，通过配置加载指定的css兼容性样式
   */
   {
-    loader: "postcss-loader",
+    loader: 'postcss-loader',
     options: {
       postcssOptions: {
         plugins: [
-          ["postcss-preset-env"], // 启用自动前缀
+          ['postcss-preset-env'], // 启用自动前缀
         ],
       },
     },
@@ -43,10 +43,10 @@ const commonCssLoader = [
 // 时间戳
 const timestamp = new Date().getTime();
 module.exports = {
-  entry: "./src/main.js",
+  entry: './src/main.js',
   output: {
-    filename: "bundle.js", //   path:resolve(__dirname,'../dist'),
-    path: resolve(__dirname, "../dist"), // 打包后的文件路径
+    filename: 'bundle.js', //   path:resolve(__dirname,'../dist'),
+    path: resolve(__dirname, '../dist'), // 打包后的文件路径
   },
   module: {
     rules: [
@@ -57,7 +57,7 @@ module.exports = {
         test: /\.js$/,
         enforce: 'pre', // 关键！确保 ESLint 在 Babel 之前执行
         exclude: /node_modules/,
-        loader: "eslint-loader",
+        loader: 'eslint-loader',
         options: {
           fix: true, // 自动修复可修复的错误
           emitWarning: true, // 显示警告但不阻断构建
@@ -76,21 +76,21 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         options: {
           presets: [[
-            "@babel/preset-env",
+            '@babel/preset-env',
             {
-              useBuiltIns: "usage", // 按需加载
+              useBuiltIns: 'usage', // 按需加载
               corejs: { version: 3 }, // 指定 core-js 的版本为 v3
               targets: { // 指定兼容的浏览器版本
-                chrome: "58",// 指定兼容的浏览器版本
-                ie: "11",// 指定兼容的浏览器版本
+                chrome: '58', // 指定兼容的浏览器版本
+                ie: '11', // 指定兼容的浏览器版本
               },
-            }
+            },
           ]],
           cacheDirectory: true, // 开启babel缓存
-        }
+        },
       },
       {
         test: /\.css$/,
@@ -98,7 +98,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: [...commonCssLoader, "less-loader"],
+        use: [...commonCssLoader, 'less-loader'],
       },
 
       // 处理图片资源
@@ -107,11 +107,11 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|webp)$/i,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 8 * 1024, // 小于 8KB 的图片转为 Base64
               name: `[name].[contenthash:8].${timestamp}.[ext]`, // 输出文件名格式
-              outputPath: "images", // 图片文件输出目录（如 dist/images）
+              outputPath: 'images', // 图片文件输出目录（如 dist/images）
             },
           },
         ],
@@ -119,17 +119,17 @@ module.exports = {
       // 处理html中img图片
       {
         test: /\.html$/,
-        use: ["html-loader"],
+        use: ['html-loader'],
       },
       // 处理字体资源
       {
         test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/i,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
               name: `[name].[contenthash:8].${timestamp}.[ext]`, // 输出文件名格式
-              outputPath: "fonts", // 字体文件输出目录（如 dist/fonts）
+              outputPath: 'fonts', // 字体文件输出目录（如 dist/fonts）
             },
           },
         ],
@@ -139,10 +139,10 @@ module.exports = {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac|pdf|docx?|xlsx?|zip|rar)$/i,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
               name: `[name].[contenthash:8].${timestamp}.[ext]`, // 输出文件名格式
-              outputPath: "assets", // 资源输出目录（如 dist/assets）
+              outputPath: 'assets', // 资源输出目录（如 dist/assets）
             },
           },
         ],
@@ -152,12 +152,12 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     // 单独打包css文件插件
-    isProduction &&
-      new MiniCssExtractPlugin({
+    isProduction
+      && new MiniCssExtractPlugin({
         filename: `css/[name].[contenthash:8].${timestamp}.css`, // 输出文件名格式
       }),
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
+      template: './src/index.html',
       minify: {
         collapseWhitespace: true, // 折叠空白区域
         removeComments: true, // 删除注释
