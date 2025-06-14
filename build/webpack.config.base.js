@@ -29,16 +29,8 @@ const commonCssLoader = [
      css兼容性处理：postcss 找到package.json中browserslist字段，
      配置指定的兼容性浏览器，通过配置加载指定的css兼容性样式
   */
-  {
-    loader: 'postcss-loader',
-    options: {
-      postcssOptions: {
-        plugins: [
-          ['postcss-preset-env'], // 启用自动前缀
-        ],
-      },
-    },
-  },
+  'postcss-loader' // 添加 postcss-loader
+
 ];
 // 时间戳
 const timestamp = new Date().getTime();
